@@ -14,9 +14,9 @@ var PORT = process.env.PORT || 3000;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-
+//HTML routes for what the user sees/its pathway
 app.get('/', function(req, res){
-    res.sendFile(path.join(__dirname, './public/index.html'))
+    res.sendFile(path.join(__dirname, './public/index.html')) // this joins the directory name with the new pathway
 })
 app.get('/notes',function(req, res){
     res.sendFile(path.join(__dirname, './public/notes.html'))
@@ -33,7 +33,7 @@ app.post('/api/notes', function(req,res){
 
 
 
-
+//the port the app is using
 app.listen(PORT, function() {
     console.log("App listening on PORT " + PORT);
   });
