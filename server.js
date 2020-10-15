@@ -2,6 +2,8 @@
 // =============================================================
 var express = require("express");
 var path = require("path");
+var fs = require('fs');
+var notesData = require('./db/db.json')
 
 // Sets up the Express App
 // =============================================================
@@ -13,8 +15,21 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 
+app.get('/', function(req, res){
+    res.sendFile(path.join(__dirname, './public/index.html'))
+})
+app.get('/notes',function(req, res){
+    res.sendFile(path.join(__dirname, './public/notes.html'))
+})
 
+app.get('/api/notes', function(req,res){
+    res.json(notesData);
+})
 
+app.post('/api/notes', function(req,res){
+    var newNote = req.body;
+    notesData.push(newNote);
+})
 
 
 
