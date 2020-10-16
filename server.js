@@ -16,11 +16,12 @@ app.use(express.json());
 
 //HTML routes for what the user sees/its pathway
 app.get('/', function(req, res){
-    res.sendFile(path.join(__dirname, './public/index.html')) // this joins the directory name with the new pathway
+    res.sendFile(path.join(__dirname, './public/assets/index.html')) // this joins the directory name with the new pathway
 })
 app.get('/notes',function(req, res){
-    res.sendFile(path.join(__dirname, './public/notes.html'))
+    res.sendFile(path.join(__dirname, './public/assets/notes.html'))
 })
+
 
 app.get('/api/notes', function(req,res){
     res.json(notesData);
@@ -31,7 +32,7 @@ app.post('/api/notes', function(req,res){
     notesData.push(newNote);
 })
 
-app.use(express.static('public'))
+app.use('/static', express.static(path.join(__dirname, 'public')))
 
 
 
