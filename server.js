@@ -31,6 +31,8 @@ app.post('/api/notes', function(req,res){
     notesData.push(newNote);
 })
 
+app.use(express.static('public'))
+
 
 
 //the port the app is using
