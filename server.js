@@ -3,8 +3,9 @@
 var express = require("express");
 var path = require("path");
 var fs = require('fs');
-var notesData = require('./db/db.json')
+var notesData = require('./db/db.json');
 
+const{ v4: uuidv4 } = require('uuid');
 // Sets up the Express App
 // =============================================================
 var app = express();
@@ -16,12 +17,12 @@ app.use(express.json());
 
 //HTML routes for what the user sees/its pathway
 app.get('/', function(req, res){
-    res.sendFile(path.join(__dirname, './public/assets/index.html')) // this joins the directory name with the new pathway
+    res.sendFile(path.join(__dirname, './public/assets/index.html'))
+    // this joins the directory name with the new pathway
 })
 app.get('/notes',function(req, res){
     res.sendFile(path.join(__dirname, './public/assets/notes.html'))
 })
-
 
 app.get('/api/notes', function(req,res){
     res.json(notesData);
@@ -29,10 +30,32 @@ app.get('/api/notes', function(req,res){
 
 app.post('/api/notes', function(req,res){
     var newNote = req.body;
-    notesData.push(newNote);
-})
+    //addint ID property and uuidv4 gives it a unique id value
+    newNote.id = uuidv4();
 
-app.use('/static', express.static(path.join(__dirname, 'public')))
+    notesData.push(newNote);
+
+    fs.writeFile('./db/db.json', JSON.stringify(notesData), function(err){
+        res.json('Success!');
+    });
+});
+
+app.delete('/api/notes/:id', function(req,res){
+    const id = req.params.id;
+
+    // notesData.splice(notesData.findIndex(i => i.id === id),1);
+    for (i=0; i< notesData.length; i++){
+        if(notesData[i].id === id){
+            notesData.splice(i,1);
+        }
+    }
+
+});
+
+
+//this uses the public file to allow the HTML to acces the js
+// DEFINITION OF STATIC To serve static files such as images, CSS files, and JavaScript files, use the express.static built-in middleware function in Express.
+app.use(express.static(path.join(__dirname, 'public')));
 
 
 
