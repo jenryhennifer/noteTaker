@@ -31,7 +31,7 @@ app.post('/api/notes', function(req,res){
     notesData.push(newNote);
 })
 
-// app.use(express.static('public'))
+app.use(express.static('public'))
 
 
 
