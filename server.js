@@ -29,9 +29,7 @@ app.get('/notes', function (req, res) {
 })
 
 app.get('/api/notes', function (req, res) {
-    console.log('get notes')
     var notes = getNotes()
-    console.log(notes)
     res.json(notes);
 
 })
